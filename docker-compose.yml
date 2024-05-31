@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  shared-state:
+    build:
+      context: ./mf-app-store
+      dockerfile: Dockerfile
+    volumes:
+      - ./mf-app-store:/usr/src/app
+      - type: bind
+        source: ./mf-app-store/node_modules
+        target: /usr/src/app/node_modules
+    ports:
+      - "4000:4000"
+    command: ["npm", "run", "serve"]
+
+  remote:
+    build:
+      context: ./mf-app-react-remote
+      dockerfile: Dockerfile
+    volumes:
+      - ./mf-app-react-remote:/usr/src/app
+      - type: bind
+        source: ./mf-app-react-remote/node_modules
+        target: /usr/src/app/node_modules
+    ports:
+      - "5000:5000"
+    depends_on:
+      - shared-state
+    command: ["npm", "run", "serve"]
+
+  host:
+    build:
+      context: ./mf-app-react-host
+      dockerfile: Dockerfile
+    volumes:
+      - ./mf-app-react-host:/usr/src/app/
+      - type: bind
+        source: ./mf-app-react-host/node_modules
+        target: /usr/src/app/node_modules
+      # - ./mf-app-store:/usr/src/app/store  # Mount shared-state
+      # - ./mf-app-react-remote:/usr/src/app/remote  # Mount remote
+    ports:
+      - "3000:3000"
+    depends_on:
+      - shared-state
+      - remote
+    command: ["npm", "run", "dev"]
+
