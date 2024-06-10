@@ -4,16 +4,16 @@ HOST="/mf-app-react-host/"
 REMOTE="/mf-app-react-remote/"
 STORE="/mf-app-store/"
 
-if [ ! -d "$HOST"]; then
+if [ ! -d "$HOST" ]; then
     echo "Cloning host"
     git clone git@github.com:dmifsud/mf-app-react-host.git
 fi
 
-if [ ! -d "$REMOTE"]; then
+if [ ! -d "$REMOTE" ]; then
     git clone git@github.com:dmifsud/mf-app-react-remote.git
 fi
 
-if [ ! -d "$STORE"]; then
+if [ ! -d "$STORE" ]; then
     git clone git@github.com:dmifsud/mf-app-store.git
 fi
 
