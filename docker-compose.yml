@@ -6,10 +6,11 @@ services:
       context: ./mf-app-store
       dockerfile: Dockerfile
     volumes:
-      - ./mf-app-store:/usr/src/app
-      - type: bind
-        source: ./mf-app-store/node_modules
-        target: /usr/src/app/node_modules
+      - ./mf-app-store:/app
+      # - /usr/src/app/node_modules
+      # - type: bind # type bind will expect node_modules to be pre-installed
+      #   source: ./mf-app-store/node_modules
+      #   target: /usr/src/app/node_modules
     ports:
       - "4000:4000"
     command: ["npm", "run", "serve"]
@@ -19,31 +20,33 @@ services:
       context: ./mf-app-react-remote
       dockerfile: Dockerfile
     volumes:
-      - ./mf-app-react-remote:/usr/src/app
-      - type: bind
-        source: ./mf-app-react-remote/node_modules
-        target: /usr/src/app/node_modules
+      - ./mf-app-react-remote:/app
+      # - /usr/src/app/node_modules
+      # - type: bind
+      #   source: ./mf-app-react-remote/node_modules
+      #   target: /usr/src/app/node_modules
     ports:
-      - "5000:5000"
+      - "5001:5001"
     depends_on:
       - shared-state
     command: ["npm", "run", "serve"]
 
-  host:
-    build:
-      context: ./mf-app-react-host
-      dockerfile: Dockerfile
-    volumes:
-      - ./mf-app-react-host:/usr/src/app/
-      - type: bind
-        source: ./mf-app-react-host/node_modules
-        target: /usr/src/app/node_modules
-      # - ./mf-app-store:/usr/src/app/store  # Mount shared-state
-      # - ./mf-app-react-remote:/usr/src/app/remote  # Mount remote
-    ports:
-      - "3000:3000"
-    depends_on:
-      - shared-state
-      - remote
-    command: ["npm", "run", "dev"]
+  # host:
+  #   build:
+  #     context: ./mf-app-react-host
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ./mf-app-react-host:/app/
+  #     # - /usr/src/app/node_modules
+  #     # - type: bind
+  #     #   source: ./mf-app-react-host/node_modules
+  #     #   target: /usr/src/app/node_modules
+  #     # - ./mf-app-store:/usr/src/app/store  # Mount shared-state
+  #     # - ./mf-app-react-remote:/usr/src/app/remote  # Mount remote
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - shared-state
+  #     - remote
+  #   command: ["npm", "run", "dev"]
 
