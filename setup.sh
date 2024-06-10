@@ -1,15 +1,19 @@
 # if this file doesn't execute, run this command: chmod +x start.sh
 
-if [ ! -d "/mf-app-react-host"]; then
+HOST="/mf-app-react-host/"
+REMOTE="/mf-app-react-remote/"
+STORE="/mf-app-store/"
+
+if [ ! -d "$HOST"]; then
     echo "Cloning host"
     git clone git@github.com:dmifsud/mf-app-react-host.git
 fi
 
-if [ ! -d "/mf-app-react-remote"]; then
+if [ ! -d "$REMOTE"]; then
     git clone git@github.com:dmifsud/mf-app-react-remote.git
 fi
 
-if [ ! -d "/mf-app-store"]; then
+if [ ! -d "$STORE"]; then
     git clone git@github.com:dmifsud/mf-app-store.git
 fi
 
